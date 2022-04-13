@@ -145,12 +145,12 @@
         </tr>
       </thead>
       <tbody>
-        {% for usuarios in usuarios %}
+        {% for usuario in usuarios %}
           <tr>
-            <td>{{ usuarios.username }}</td>
-            <td>{{ usuarios.email }}</td>
-            <td>{{ usuarios.groups }}</td>
-            <td>{{ usuarios.is_active }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.groups.all() }}</td>
+            <td>{{ usuario.is_active }}</td>
             <td>
               <div class="btn-group me-2">
                 {% comment %} <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
