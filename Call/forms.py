@@ -13,6 +13,13 @@ class FormularioRemitente(forms.Form):
     telefonoRemi = forms.CharField(label='Teléfono', max_length=100, required=True)
     correoRemi = forms.CharField(label='Correo', max_length=100, required=True)
 
+class FormularioRemitente2(forms.ModelForm):
+    class Meta:
+        model = EnvioGuia
+        fields = ('tipoServicio', 'numueroguia', 'tipoIdRemitente', 'identificacionRemi', 'nombreRemi', 'ciudadRemi', 'direccionRemi', 'telefonoRemi', 'correoRemi')
+        labels = { 'tipoServicio': 'Servicio', 'numueroguia': 'Número de Guía', 'tipoIdRemitente': 'Tipo de Identificación', 'identificacionRemi': 'Identificación', 'nombreRemi': 'Nombre', 'ciudadRemi': 'Ciudad', 'direccionRemi': 'Dirección', 'telefonoRemi': 'Teléfono', 'correoRemi': 'Correo'}
+        widgets = { 'tipoServicio': forms.Select(attrs={'class': 'form-control'}), 'numueroguia': forms.TextInput(attrs={'class': 'form-control'}), 'tipoIdRemitente': forms.Select(attrs={'class': 'form-control'}), 'identificacionRemi': forms.TextInput(attrs={'class': 'form-control'}), 'nombreRemi': forms.TextInput(attrs={'class': 'form-control'}), 'ciudadRemi': forms.Select(attrs={'class': 'form-control'}), 'direccionRemi': forms.TextInput(attrs={'class': 'form-control'}), 'telefonoRemi': forms.TextInput(attrs={'class': 'form-control'}), 'correoRemi': forms.TextInput(attrs={'class': 'form-control'})}
+
 class FormularioDestinatario(forms.Form):
     tipoIdDestinatario = forms.ModelChoiceField(queryset=TipoIdentificacion.objects.all(), label = 'Tipo de Identificación')
     identificacionDesti = forms.CharField(label='Identificación', max_length=100, required=True)
@@ -22,14 +29,19 @@ class FormularioDestinatario(forms.Form):
     telefonoDesti = forms.CharField(label='Teléfono', max_length=100, required=True)
     correoDesti = forms.CharField(label='Correo', max_length=100, required=True)
 
+class FormularioDestinatario2(forms.ModelForm):
+    class Meta:
+        model = EnvioGuia
+        fields = ('tipoIdDesti', 'identificacionDesti', 'nombreDesti', 'ciudadDesti', 'direccionDesti', 'telefonoDesti', 'correoDesti')
+        labels = { 'tipoIdDesti': 'Tipo de Identificación', 'identificacionDesti': 'Identificación', 'nombreDesti': 'Nombre', 'ciudadDesti': 'Ciudad', 'direccionDesti': 'Dirección', 'telefonoDesti': 'Teléfono', 'correoDesti': 'Correo'}
+        widgets = { 'tipoIdDesti': forms.Select(attrs={'class': 'form-control'}), 'identificacionDesti': forms.TextInput(attrs={'class': 'form-control'}), 'nombreDesti': forms.TextInput(attrs={'class': 'form-control'}), 'ciudadDesti': forms.Select(attrs={'class': 'form-control'}), 'direccionDesti': forms.TextInput(attrs={'class': 'form-control'}), 'telefonoDesti': forms.TextInput(attrs={'class': 'form-control'}), 'correoDesti': forms.TextInput(attrs={'class': 'form-control'})}
 
 class FormularioUnidades(forms.Form):
-    peso = forms.CharField(label='Peso Real', max_length=100, required=True)
+    peso = forms.IntegerField(label='Peso', required=True)
     largo = forms.CharField(label='Largo', max_length=100, required=True)
     ancho = forms.CharField(label='Ancho', max_length=100, required=True)
     alto = forms.CharField(label='Alto', max_length=100, required=True)
     contiene = forms.CharField(label='Contiene', max_length=100, required=True)
-    valor = forms.CharField(label='Valor', max_length=100, required=True)
     forma = forms.ModelChoiceField(queryset=FormaPago.objects.all(), label='Forma de Pago')
 
 
