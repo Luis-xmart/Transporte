@@ -1,5 +1,5 @@
 from django import forms
-from .models import TipoServicio, TipoIdentificacion, FormaPago, Municipio
+from .models import TipoServicio, TipoIdentificacion, FormaPago, Municipio, EnvioGuia
 # from Cotizaciones.models import Municipio
 
 class FormularioRemitente(forms.Form):
@@ -31,4 +31,12 @@ class FormularioUnidades(forms.Form):
     contiene = forms.CharField(label='Contiene', max_length=100, required=True)
     valor = forms.CharField(label='Valor', max_length=100, required=True)
     forma = forms.ModelChoiceField(queryset=FormaPago.objects.all(), label='Forma de Pago')
+
+
+class FormularioUnidades2(forms.ModelForm):
+    class Meta:
+        model = EnvioGuia
+        fields = ['formapagp', 'peso', 'largo', 'ancho', 'alto', 'contiene', 'valor']
+        labels = { 'formapagp': 'Forma de Pago', 'peso': 'Peso Real', 'largo': 'Largo', 'ancho': 'Ancho', 'alto': 'Alto', 'contiene': 'Contiene', 'valor': 'Valor'}
+        widgets = { 'formapagp': forms.Select(attrs={'class': 'form-control'}), 'peso': forms.TextInput(attrs={'class': 'form-control'}), 'largo': forms.TextInput(attrs={'class': 'form-control'}), 'ancho': forms.TextInput(attrs={'class': 'form-control'}), 'alto': forms.TextInput(attrs={'class': 'form-control'}), 'contiene': forms.TextInput(attrs={'class': 'form-control'}), 'valor': forms.TextInput(attrs={'class': 'form-control'})}
 

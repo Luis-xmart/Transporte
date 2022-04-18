@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .forms import FormularioRemitente, FormularioDestinatario, FormularioUnidades
+from django.shortcuts import render, redirect
+from .forms import FormularioRemitente, FormularioDestinatario, FormularioUnidades, FormularioUnidades2
 from .models import EnvioGuia
 # from .forms import FormularioEmpresa
 # from .models import Empresa
@@ -43,3 +43,20 @@ def call(request):
             formapagp = form_data3.get('forma')
             envio = EnvioGuia.objects.create(tipoServicio=tipoServicio, numueroguia=numueroguia, tipoIdRemitente=tipoIdRemitente, identificacionRemi=identificacionRemi, nombreRemi=nombreRemi, ciudadRemi=ciudadRemi, direccionRemi=direccionRemi, telefonoRemi=telefonoRemi, correoRemi=correoRemi, tipoIdDesti=tipoIdDesti, identificacionDesti=identificacionDesti, nombreDesti=nombreDesti, ciudadDesti=ciudadDesti, direccionDesti=direccionDesti, telefonoDesti=telefonoDesti, correoDesti=correoDesti, peso=peso, largo=largo, ancho=ancho, alto=alto, contiene=contiene, valor=valor, formapagp=formapagp)
     return render(request, 'Call/call.html', {'formRemi': formRemi, 'formDesti': formDesti, 'formUnidades': formUnidades, 'env': env})
+
+
+def editar(request, id):
+    env = EnvioGuia.objects.filter(id=id).first()
+    if request.method == 'GET':
+        fromC = FormularioUnidades2(instance=env)
+    else:
+        fromC = FormularioUnidades2(request.POST, instance=env)
+        if fromC.is_valid():
+            form_data = fromC.cleaned_data
+            peso = form_data.get('peso')
+            largo = form_data.get('largo')
+            ancho = form_data.get('ancho')
+            alto = form_data.get('alto')
+            env1 = EnvioGuia.objects.filter(id=id).update(peso=peso, largo=largo, ancho=ancho, alto=alto)
+            return redirect('Call')
+    return render(request, 'Call/editar.html', context ={'fromC': fromC, 'env': env})

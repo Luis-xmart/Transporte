@@ -18,14 +18,14 @@
                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                Registrar Guia de Envios
                </button>
-               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               {% comment %} <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                      <div class="modal-content">
                         <div class="modal-header">
                            <h5 class="modal-title" id="exampleModalLabel">Crear Guia de Envios</h5>
                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        {% comment %} 
+                        
                         <form action="" method="POST">
                            <div class="modal-body">
                               {% csrf_token %}
@@ -43,7 +43,7 @@
                               <input type="submit" value="Guardar" class="btn btn-success">
                            </div>
                         </form>
-                        {% endcomment %}
+                        
                         <!-- Start Stepper HTML -->
                         <div class="container">
                            <div class="accordion" id="accordionExample">
@@ -120,7 +120,7 @@
                         </div>
                      </div>
                   </div>
-               </div>
+               </div> {% endcomment %}
             </div>
          </div>
       </div>
@@ -155,27 +155,7 @@
                         {% comment %} <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Asignar
                         </button> {% endcomment %}
-                        <a href="asignar/{{env.id}}" title="Asignar" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar </a> 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                           <div class="modal-dialog">
-                              <div class="modal-content">
-                                 <div class="modal-header">
-                                    <h4>Asignacion de Vehiculos</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                 </div>
-                                 <form action="" method="POST">
-                                    <div class="modal-body">
-                                       {% csrf_token %}
-                                       <table style = "margin: 20px auto;">{{ fromC.as_table }}</table>
-                                    </div>
-                                    <div class="modal-footer">
-                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                       <input type="submit" value="Asignar" class="btn btn-success">
-                                    </div>
-                                 </form>
-                              </div>
-                           </div>
-                        </div>
+                      <a data-toggle="modal" href="{% url 'editar' env.id %}" class="btn btn-success" data-target="#modal" title="edit item" data-tooltip>Editar</a> 
                      </div>
                   </td>
                </tr>

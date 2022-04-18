@@ -1,0 +1,89 @@
+{%  extends 'ProyectoWebApp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">Crear Guia de Envios</h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <!-- Start Stepper HTML -->
+          <div class="container">
+             <div class="accordion" id="accordionExample">
+                <div class="steps">
+                   <progress id="progress" value=0 max=100 ></progress>
+                   <div class="step-item">
+                      <button class="step-button text-center" type="button" data-bs-toggle="collapse"
+                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      1
+                      </button>
+                      <div class="step-title">
+                         First Step
+                      </div>
+                   </div>
+                   <div class="step-item">
+                      <button class="step-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      2
+                      </button>
+                      <div class="step-title">
+                         Second Step
+                      </div>
+                   </div>
+                   <div class="step-item">
+                      <button class="step-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      3
+                      </button>
+                      <div class="step-title">
+                         Third Step
+                      </div>
+                   </div>
+                </div>
+                <form action="" method="POST">
+                   <div class="card">
+                      <div  id="headingOne">
+                      </div>
+                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                         data-bs-parent="#accordionExample">
+                         <div class="card-body">
+                            {% csrf_token %}
+                            <h2>Información del remitente</h2>
+                            <table style = "margin: 20px auto;">{{ formRemi.as_table }}</table>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="card">
+                      <div  id="headingTwo">
+                      </div>
+                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                         <div class="card-body">
+                            {% csrf_token %}
+                            <h2>Información del Destinatario</h2>
+                            <table style = "margin: 20px auto;">{{ formDesti.as_table }}</table>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="card">
+                      <div  id="headingThree">
+                      </div>
+                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                         data-bs-parent="#accordionExample">
+                         <div class="card-body">
+                            {% csrf_token %}
+                            <h2>Información de las unidades</h2>
+                            <table style = "margin: 20px auto;">{{ fromC.as_table }}</table>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <input type="submit" value="Guardar" class="btn btn-success">
+                         </div>
+                      </div>
+                   </div>
+                </form>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+{% endblock %}
