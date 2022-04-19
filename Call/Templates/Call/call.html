@@ -18,7 +18,7 @@
                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                Registrar Guia de Envios
                </button>
-               {% comment %} <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                      <div class="modal-content">
                         <div class="modal-header">
@@ -26,7 +26,7 @@
                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         
-                        <form action="" method="POST">
+                        {% comment %} <form action="" method="POST">
                            <div class="modal-body">
                               {% csrf_token %}
                               <h2>Información del remitente</h2>
@@ -42,7 +42,7 @@
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                               <input type="submit" value="Guardar" class="btn btn-success">
                            </div>
-                        </form>
+                        </form> {% endcomment %}
                         
                         <!-- Start Stepper HTML -->
                         <div class="container">
@@ -120,7 +120,7 @@
                         </div>
                      </div>
                   </div>
-               </div> {% endcomment %}
+               </div> 
             </div>
          </div>
       </div>
@@ -136,6 +136,7 @@
                   <th scope="col">Ciudad Destino</th>
                   <th scope="col">Direccion</th>
                   <th scope="col">Telefono</th>
+                  <th scope="col">Valor</th>
                   <th scope="col">Editar</th>
                </tr>
             </thead>
@@ -150,6 +151,7 @@
                   <td>{{ env.ciudadDesti }}</td>
                   <td>{{ env.direccionDesti }}</td>
                   <td>{{ env.telefonoDesti }}</td>
+                  <td>{{ env.valor }}</td>
                   <td>
                      <div class="btn-group me-2">
                         {% comment %} <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">

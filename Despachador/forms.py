@@ -5,10 +5,10 @@ from Vehiculos.models import Vehiculo
 #     vehiculo = forms.ModelChoiceField(queryset=Vehiculo.objects.all(), label="Vehiculo", required=True)
 
 class FormularioConductores(forms.ModelForm):
-    secretdocs = forms.ChoiceField(choices=[(doc.id, doc.placa) for doc in Vehiculo.objects.all()])
+    vehiculos = forms.ChoiceField(choices=[(doc.id, doc.placa) for doc in Vehiculo.objects.all()])
     class Meta:
         model = Vehiculo
-        fields = ['secretdocs', ]
+        fields = ['vehiculos', ]
         widgets = {
-            'secretdocs': forms.Select(attrs={'class': 'select'}),
+            'vehiculos': forms.Select(attrs={'class': 'select'}),
         }

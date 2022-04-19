@@ -28,7 +28,7 @@ def asignar(request, id):
         fromC = FormularioConductores(request.POST, instance=env)
         if fromC.is_valid():
             form_data = fromC.cleaned_data
-            vehiculo = form_data.get('secretdocs')
+            vehiculo = form_data.get('vehiculos')
             env1 = EnvioGuia.objects.filter(id=id).update(vehiculos_id=vehiculo)
             return redirect('Despachador')
     return render(request, 'Despachador/asignar.html', context ={'fromC': fromC, 'env': env})

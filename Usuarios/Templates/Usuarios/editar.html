@@ -4,18 +4,18 @@
 <div class="modal-dialog">
        <div class="modal-content">
           <div class="modal-header">
-             <h2 class="modal-title" id="exampleModalLabel">Asignar Vehiculo</h2>
+             <h2 class="modal-title" id="exampleModalLabel">Editar Usuarios</h2>
              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form action="" method="POST">
              <div class="modal-body">
                 {% csrf_token %}
-                <table style = "margin: 20px auto;">{{ fromC.as_table }}</table>
+                
+                <table style = "margin: 20px auto;">{{ form.as_table }}</table>
              </div>
              <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button class="btn btn-warning" name="asignado" >Asignar</button>
-                <input type="hidden" name="id" value={{ env.id }}>
+                <input type="submit" value="Guardar" class="btn btn-success">
              </div>
           </form>
           <!-- Start Stepper HTML -->

@@ -1,6 +1,8 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    path('Usuarios/', views.usuarios, name='Usuarios'),
+    path('Usuarios/', views.register, name='Usuarios'),
+    re_path(r'^editarusu/(?P<id>\d+)$', views.editar, name='editarusu'),
+    re_path(r'^eliminar/(?P<id>\d+)$', views.eliminar, name='eliminar'),
 ]
