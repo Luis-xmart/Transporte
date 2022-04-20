@@ -39,6 +39,8 @@ def call(request):
                 peso = form_data4.get('peso')
                 print('PESO: ', peso)
                 print(peso)
+                form_data3 = formUnidades.cleaned_data
+                peso = form_data3.get('peso')
                 if peso < 5:
                     valorIdoc = 10300
                     valor = valorIdoc
@@ -53,6 +55,11 @@ def call(request):
                 alto = form_data4.get('alto')
                 contiene = form_data4.get('contiene')
                 formapagp = form_data4.get('forma')
+                largo = form_data3.get('largo')
+                ancho = form_data3.get('ancho')
+                alto = form_data3.get('alto')
+                contiene = form_data3.get('contiene')
+                formapagp = form_data3.get('forma')
                 envio = EnvioGuia.objects.create(tipoServicio=tipoServicio, numueroguia=numueroguia, tipoIdRemitente=tipoIdRemitente, identificacionRemi=identificacionRemi, nombreRemi=nombreRemi, ciudadRemi=ciudadRemi, direccionRemi=direccionRemi, telefonoRemi=telefonoRemi, correoRemi=correoRemi, tipoIdDesti=tipoIdDesti, identificacionDesti=identificacionDesti, nombreDesti=nombreDesti, ciudadDesti=ciudadDesti, direccionDesti=direccionDesti, telefonoDesti=telefonoDesti, correoDesti=correoDesti, peso=peso, largo=largo, ancho=ancho, alto=alto, contiene=contiene, valor=valor, formapagp=formapagp)
             else:
                 numueroguia = form_data1.get('numeroguia')
@@ -82,6 +89,14 @@ def call(request):
                     valorApaq = 2000
                     flete = 300
                     total = (valorIpaq + valorApaq + flete)*peso
+                if peso < 30:
+                    valorIdoc = 15300
+                    valor = valorIdoc
+                else:
+                    valorIdoc = 15000
+                    valorAdoc = 2000
+                    flete = 300
+                    total = (valorIdoc + valorAdoc + flete)
                     valor = total
                 largo = form_data3.get('largo')
                 ancho = form_data3.get('ancho')
@@ -140,5 +155,5 @@ def editar(request, id):
                     total = (valorIpaq + valorApaq + flete)*peso
                     valor = total
                 env1 = EnvioGuia.objects.filter(id=id).update(peso=peso, valor = valor)
-            return redirect('Call')
+                return redirect('Call')
     return render(request, 'Call/editar.html', context ={'formRemi': formRemi, 'formDesti': formDesti,'fromC': fromC, 'env': env})
