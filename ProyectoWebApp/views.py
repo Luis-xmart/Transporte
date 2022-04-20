@@ -6,3 +6,6 @@ from django.shortcuts import render
 def index(request):
 
     return render(request, 'ProyectoWebApp/base.html')
+
+def permisos(request):
+    return render(request, 'ProyectoWebApp/sinpermiso.html')

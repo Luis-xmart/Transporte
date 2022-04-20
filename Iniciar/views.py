@@ -11,8 +11,8 @@ def login1(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            usuario = authenticate(username=username, password=password)
+            contraseña = form.cleaned_data['password']
+            usuario = authenticate(username=username, password=contraseña)
             if usuario is not None:
                 login(request, usuario)
                 return redirect('Base/')

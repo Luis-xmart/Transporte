@@ -13,12 +13,33 @@ class FormularioRemitente(forms.Form):
     telefonoRemi = forms.CharField(label='Teléfono', max_length=100, required=True)
     correoRemi = forms.CharField(label='Correo', max_length=100, required=True)
 
+    
 class FormularioRemitente2(forms.ModelForm):
     class Meta:
         model = EnvioGuia
         fields = ('tipoServicio', 'numueroguia', 'tipoIdRemitente', 'identificacionRemi', 'nombreRemi', 'ciudadRemi', 'direccionRemi', 'telefonoRemi', 'correoRemi')
         labels = { 'tipoServicio': 'Servicio', 'numueroguia': 'Número de Guía', 'tipoIdRemitente': 'Tipo de Identificación', 'identificacionRemi': 'Identificación', 'nombreRemi': 'Nombre', 'ciudadRemi': 'Ciudad', 'direccionRemi': 'Dirección', 'telefonoRemi': 'Teléfono', 'correoRemi': 'Correo'}
-        widgets = { 'tipoServicio': forms.Select(attrs={'class': 'form-control'}), 'numueroguia': forms.TextInput(attrs={'class': 'form-control'}), 'tipoIdRemitente': forms.Select(attrs={'class': 'form-control'}), 'identificacionRemi': forms.TextInput(attrs={'class': 'form-control'}), 'nombreRemi': forms.TextInput(attrs={'class': 'form-control'}), 'ciudadRemi': forms.Select(attrs={'class': 'form-control'}), 'direccionRemi': forms.TextInput(attrs={'class': 'form-control'}), 'telefonoRemi': forms.TextInput(attrs={'class': 'form-control'}), 'correoRemi': forms.TextInput(attrs={'class': 'form-control'})}
+        widgets = { 'tipoServicio': forms.Select(attrs={'class': 'form-control'}), 
+        'numueroguia': forms.TextInput(attrs={'class': 'form-control'}), 
+        'tipoIdRemitente': forms.Select(attrs={'class': 'form-control'}), 
+        'identificacionRemi': forms.TextInput(attrs={'class': 'form-control'}), 
+        'nombreRemi': forms.TextInput(attrs={'class': 'form-control'}), 
+        'ciudadRemi': forms.Select(attrs={'class': 'form-control'}), 
+        'direccionRemi': forms.TextInput(attrs={'class': 'form-control'}), 
+        'telefonoRemi': forms.TextInput(attrs={'class': 'form-control'}), 
+        'correoRemi': forms.TextInput(attrs={'class': 'form-control'})}
+
+    def __init__(self, *args, **kwargs):
+        super(FormularioRemitente2, self).__init__(*args, **kwargs)
+        self.fields['tipoServicio'].disabled = True
+        self.fields['numueroguia'].disabled = True
+        self.fields['tipoIdRemitente'].disabled = True
+        self.fields['identificacionRemi'].disabled = True
+        self.fields['nombreRemi'].disabled = True
+        self.fields['ciudadRemi'].disabled = True
+        self.fields['direccionRemi'].disabled = True
+        self.fields['telefonoRemi'].disabled = True
+        self.fields['correoRemi'].disabled = True
 
 class FormularioDestinatario(forms.Form):
     tipoIdDestinatario = forms.ModelChoiceField(queryset=TipoIdentificacion.objects.all(), label = 'Tipo de Identificación')
@@ -34,7 +55,23 @@ class FormularioDestinatario2(forms.ModelForm):
         model = EnvioGuia
         fields = ('tipoIdDesti', 'identificacionDesti', 'nombreDesti', 'ciudadDesti', 'direccionDesti', 'telefonoDesti', 'correoDesti')
         labels = { 'tipoIdDesti': 'Tipo de Identificación', 'identificacionDesti': 'Identificación', 'nombreDesti': 'Nombre', 'ciudadDesti': 'Ciudad', 'direccionDesti': 'Dirección', 'telefonoDesti': 'Teléfono', 'correoDesti': 'Correo'}
-        widgets = { 'tipoIdDesti': forms.Select(attrs={'class': 'form-control'}), 'identificacionDesti': forms.TextInput(attrs={'class': 'form-control'}), 'nombreDesti': forms.TextInput(attrs={'class': 'form-control'}), 'ciudadDesti': forms.Select(attrs={'class': 'form-control'}), 'direccionDesti': forms.TextInput(attrs={'class': 'form-control'}), 'telefonoDesti': forms.TextInput(attrs={'class': 'form-control'}), 'correoDesti': forms.TextInput(attrs={'class': 'form-control'})}
+        widgets = { 'tipoIdDesti': forms.Select(attrs={'class': 'form-control'}), 
+        'identificacionDesti': forms.TextInput(attrs={'class': 'form-control'}), 
+        'nombreDesti': forms.TextInput(attrs={'class': 'form-control'}), 
+        'ciudadDesti': forms.Select(attrs={'class': 'form-control'}), 
+        'direccionDesti': forms.TextInput(attrs={'class': 'form-control'}), 
+        'telefonoDesti': forms.TextInput(attrs={'class': 'form-control'}), 
+        'correoDesti': forms.TextInput(attrs={'class': 'form-control'})}
+
+    def __init__(self, *args, **kwargs):
+        super(FormularioDestinatario2, self).__init__(*args, **kwargs)
+        self.fields['tipoIdDesti'].disabled = True
+        self.fields['identificacionDesti'].disabled = True
+        self.fields['nombreDesti'].disabled = True
+        self.fields['ciudadDesti'].disabled = True
+        self.fields['direccionDesti'].disabled = True
+        self.fields['telefonoDesti'].disabled = True
+        self.fields['correoDesti'].disabled = True
 
 class FormularioUnidades(forms.Form):
     peso = forms.IntegerField(label='Peso', required=True)

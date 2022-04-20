@@ -1,6 +1,7 @@
 {%  extends 'ProyectoWebApp/base.html' %}
 {% load static %}
 {% block content %}
+{% comment %} {% if request.user.groups.all.first %}  {% endcomment %}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -122,58 +123,26 @@
             <tbody>
                {% for env in env %}
                <tr>
-                  <td>{{ env.numueroguia }}</td>
-                  <td>{{ env.tipoServicio.nombre }}</td>
-                  <td>{{ env.nombreRemi }}</td>
-                  <td>{{ env.ciudadRemi }}</td>
-                  <td>{{ env.nombreDesti }}</td>
-                  <td>{{ env.ciudadDesti }}</td>
-                  <td>{{ env.direccionDesti }}</td>
-                  <td>{{ env.telefonoDesti }}</td>
-                  <td>
-                     <form method = "POST" action = "{% url 'Conductor' %}">
-                        {% csrf_token %}
-                        <button class="btn btn-danger" name="entregado" >Entregado</button>
-                        <input type="hidden" name="id" value="{{ env.id }}"> 
-                     </form>
-                     {% comment %} <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">Entregado</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">No Entregado</label>
-                      </div> {% endcomment %}
-                     <!-- <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-                     </div> -->
-                     <!-- <div class="btn-group me-2">
-                        {% comment %} <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Asignar
-                        </button> {% endcomment %}
-                        <a href="asignar/{{env.id}}" title="Asignar" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar </a> 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                           <div class="modal-dialog">
-                              <div class="modal-content">
-                                 <div class="modal-header">
-                                    <h4>Asignacion de Vehiculos</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                 </div>
-                                 <form action="" method="POST">
-                                    <div class="modal-body">
-                                       {% csrf_token %}
-                                       <table style = "margin: 20px auto;">{{ fromC.as_table }}</table>
-                                    </div>
-                                    <div class="modal-footer">
-                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                       <input type="submit" value="Asignar" class="btn btn-success">
-                                    </div>
-                                 </form>
-                              </div>
-                           </div>
-                        </div>
-                     </div> -->
-                  </td>
+                  <h1> {{env2}}</h1>
+                  {% if env.vehiculos_id == env2.id %}
+                     <td>{{ env.numueroguia }}</td>
+                     <td>{{ env.tipoServicio.nombre }}</td>
+                     <td>{{ env.nombreRemi }}</td>
+                     <td>{{ env.ciudadRemi }}</td>
+                     <td>{{ env.nombreDesti }}</td>
+                     <td>{{ env.ciudadDesti }}</td>
+                     <td>{{ env.direccionDesti }}</td>
+                     <td>{{ env.telefonoDesti }}</td>
+                     <td>
+                        <form method = "POST" action = "{% url 'Conductor' %}">
+                           {% csrf_token %}
+                           <button class="btn btn-danger" name="entregado" >  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                              <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                           </svg> Entregado</button>
+                           <input type="hidden" name="id" value="{{ env.id }}"> 
+                        </form>
+                     </td>
+                  {% endif %}
                </tr>
                {% endfor %}
             </tbody>
@@ -201,4 +170,6 @@
       </script> 
    </body>
 </html>
+{% comment %} {% endif %} {% endcomment %}
+
 {% endblock %}

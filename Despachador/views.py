@@ -9,8 +9,11 @@ from Vehiculos.models import Vehiculo
 
 # Create your views here.
 def despachador(request):
-    env = EnvioGuia.objects.filter(asignado=False)
-    return render(request, 'Despachador/despachador.html', {'env': env})
+    if request.user.groups.filter(name='DESPACHADOR').exists() or request.user.groups.filter(name='ADMINISTRADOR').exists():
+        env = EnvioGuia.objects.filter(asignado=False)
+        return render(request, 'Despachador/despachador.html', {'env': env})
+    else:
+        return redirect('sinpermiso')
 
 
 

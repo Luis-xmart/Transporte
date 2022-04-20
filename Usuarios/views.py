@@ -29,22 +29,25 @@ from .forms  import RegistrationForm
 #     return render(request, 'Usuarios/usuarios.html', {'usuarios': usuarios, 'form': form1})
 
 def register(request):
-    usuarios = User.objects.all()
-    data = { 'form' : RegistrationForm(), 'usuarios': usuarios }
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            formdata = form.cleaned_data
-            form.save()
-            usu = User.objects.get(username=formdata.get('username'))
-            my_group = Group.objects.get(id = formdata.get('rol'))
-            my_group.user_set.add(usu)
-            
-            messages.success(request, 'Usuario creado correctamente')
-            return redirect('Usuarios')
-        else:
-            data['form'] = form
-    return render(request, 'Usuarios/usuarios.html', data)
+    if request.user.groups.filter(name='ADMINISTRADOR').exists():
+        usuarios = User.objects.all()
+        data = { 'form' : RegistrationForm(), 'usuarios': usuarios }
+        if request.method == 'POST':
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                formdata = form.cleaned_data
+                form.save()
+                usu = User.objects.get(username=formdata.get('username'))
+                my_group = Group.objects.get(id = formdata.get('rol'))
+                my_group.user_set.add(usu)
+                
+                messages.success(request, 'Usuario creado correctamente')
+                return redirect('Usuarios')
+            else:
+                data['form'] = form
+        return render(request, 'Usuarios/usuarios.html', data)
+    else:
+        return redirect('sinpermiso')
 
 def editar(request, id):
     usuario = User.objects.filter(id=id).first()
