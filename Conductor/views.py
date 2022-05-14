@@ -2,6 +2,7 @@ from cmd import IDENTCHARS
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect, render
+from django.views import View
 from Call.models import EnvioGuia
 from Vehiculos.models import Vehiculo
 from django.contrib.auth.models import User, Group
@@ -93,7 +94,6 @@ def entregar(request, id):
           
           
      
-
 
 
 
