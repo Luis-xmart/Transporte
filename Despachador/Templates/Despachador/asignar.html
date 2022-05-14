@@ -1,26 +1,23 @@
 {%  extends 'ProyectoWebApp/base.html' %}
 {% load static %}
 {% block content %}
-<div class="modal-dialog">
-       <div class="modal-content">
-          <div class="modal-header">
-             <h2 class="modal-title" id="exampleModalLabel">Asignar Vehiculo</h2>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form action="" method="POST">
-             <div class="modal-body">
-                {% csrf_token %}
-                <table style = "margin: 20px auto;">{{ fromC.as_table }}</table>
-             </div>
-             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button class="btn btn-warning" name="asignado" >Asignar</button>
-                <input type="hidden" name="id" value={{ env.id }}>
-             </div>
-          </form>
-          <!-- Start Stepper HTML -->
-       </div>
-    </div>
-
-
+<div class="modal-dialog ">
+   <div class="modal-content" >
+      <div class="modal-header">
+         <h2 class="modal-title" id="exampleModalLabel">Asignar Vehiculo</h2>
+      </div>
+      <form action="" method="POST">
+         <div class="modal-body">
+            <h6 class="modal-title" id="exampleModalLabel">Asignar Vehiculo para la entrega de Envios</h6>
+            {% csrf_token %}
+            <table style = "margin: 20px auto;">{{ fromC.as_table }}</table>
+         </div>
+         <div class="modal-footer">
+            <a   class="btn btn-danger" aria-current="page" href="{% url 'Despachador' %}" >Cancelar</a>
+            <button class="btn btn-warning" name="asignado" >Asignar</button>
+            <input type="hidden" name="id" value={{ env.id }}>
+         </div>
+      </form>
+   </div>
+</div>
 {% endblock %}

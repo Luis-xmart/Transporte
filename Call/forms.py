@@ -4,7 +4,7 @@ from .models import TipoServicio, TipoIdentificacion, FormaPago, Municipio, Envi
 
 class FormularioRemitente(forms.Form):
     servicio = forms.ModelChoiceField(queryset=TipoServicio.objects.all()) # aqui seleccionamos el tipo de servicio si es documentos o paquetes         
-    numeroguia = forms.CharField(max_length=50, label='Número de Guía')
+    # numeroguia = forms.CharField(max_length=50, label='Número de Guía')
     tipoIdRemitente = forms.ModelChoiceField(queryset=TipoIdentificacion.objects.all(), label = 'Tipo de Identificación')
     identificacionRemi = forms.CharField(label='Identificación', max_length=100, required=True)
     nombreRemi = forms.CharField(label='Nombre', max_length=100, required=True)

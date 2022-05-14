@@ -14,7 +14,7 @@ class Vehiculo(models.Model):
     placa = models.CharField(max_length=7)
     marca = models.CharField(max_length=50)
     tipo = models.ForeignKey(TipoVehiculo, on_delete=models.CASCADE)
-    conductor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='conductor')
+    conductor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='EnvioGuia')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):

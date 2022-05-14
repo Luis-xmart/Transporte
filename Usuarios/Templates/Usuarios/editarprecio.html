@@ -1,0 +1,28 @@
+{%  extends 'ProyectoWebApp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h2 class="modal-title" id="exampleModalLabel">Editar precios</h2>
+          </div>
+          <form action="" method="POST">
+             <div class="modal-body">
+                {% csrf_token %}
+                
+                <table> {{ documentos.as_table }} </table>
+              
+             </div>
+            
+             <div class="modal-footer">
+               
+                <input type="submit" value="Editar" class="btn btn-success">
+                <a   class="btn btn-danger" aria-current="page" href="{% url 'Precios' %}" >Cancelar</a>
+             </div>
+          </form>
+          <!-- Start Stepper HTML -->
+       </div>
+    </div>
+
+
+{% endblock %}

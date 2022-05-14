@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import FormularioVehiculo
+
+from Conductor.views import conductor
+from .forms import FormularioVehiculo, FormularioVehiculoEditar
 from .models import Vehiculo
 # Create your views here.
 def vehiculos(request):
@@ -18,3 +20,22 @@ def vehiculos(request):
         return render(request, 'Vehiculos/vehiculos.html', {'form': form, 'vehi': vehi})
     else:
         return redirect('sinpermiso')
+
+def editarvehiculo(request, id):
+    vehi = Vehiculo.objects.filter(id=id).first()
+    print(vehi)
+    if request.method == 'GET':
+        form = FormularioVehiculoEditar(instance=vehi)
+    if request.method == 'POST':
+        form = FormularioVehiculoEditar(request.POST, instance=vehi)
+        if form.is_valid():
+            formdata2 = form.cleaned_data
+            placa = formdata2.get('placa')
+            print(placa)
+            marca = formdata2.get('marca')
+            tipo = formdata2.get('tipo')
+            conductor = formdata2.get('conductor')
+            print('CONDUCTOR: ', conductor)
+            Vehiculo.objects.filter(id=id).update(placa=placa, marca=marca, tipo=tipo, conductor=conductor)
+            return redirect('Vehiculos')
+    return render(request, 'Vehiculos/editar.html', {'form': form})

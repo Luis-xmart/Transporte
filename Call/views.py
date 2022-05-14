@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import FormularioRemitente, FormularioRemitente2, FormularioDestinatario,  FormularioDestinatario2, FormularioUnidades, FormularioUnidades2
 from .models import EnvioGuia
+from Usuarios.models import PreciosDocumentos, PreciosPaquetes
+from datetime import datetime
 # from .forms import FormularioEmpresa
 # from .models import Empresa
 
@@ -10,6 +12,10 @@ def call(request):
         formRemi = FormularioRemitente()
         formDesti = FormularioDestinatario()
         formUnidades = FormularioUnidades()
+        guias = EnvioGuia.objects.all().count()
+        print('GUIAS', guias)
+        rs =  datetime.today().strftime('%Y%m%d') + str((guias + 1)) 
+        print('RS', rs)
         env = EnvioGuia.objects.all()
         if request.method == 'POST':
             formRemi = FormularioRemitente(request.POST)
@@ -20,7 +26,7 @@ def call(request):
                 tipoServicio = form_data1.get('servicio')
                 print(tipoServicio)
                 if str(tipoServicio) == 'Documentos':
-                    numueroguia = form_data1.get('numeroguia')
+                    numueroguia = rs
                     tipoIdRemitente = form_data1.get('tipoIdRemitente')
                     identificacionRemi = form_data1.get('identificacionRemi')
                     nombreRemi = form_data1.get('nombreRemi')
@@ -43,12 +49,16 @@ def call(request):
                     form_data3 = formUnidades.cleaned_data
                     peso = form_data3.get('peso')
                     if peso < 5:
-                        valorIdoc = 10300
+                        valorIdoc = PreciosDocumentos.objects.get(año=2022).valorIdoc
+                        print('VALOR IDOC: ', valorIdoc)
                         valor = valorIdoc
                     else:
-                        valorIdoc = 10000
-                        valorAdoc = 2000
-                        flete = 300
+                        valorIdoc = PreciosDocumentos.objects.get(año=2022).valorIdoc
+                        print('VALOR IDOC: ', valorIdoc)
+                        valorAdoc = PreciosDocumentos.objects.get(año=2022).valorAdoc
+                        print('VALOR ADOC: ', valorAdoc)
+                        flete = PreciosDocumentos.objects.get(año=2022).flete
+                        print('FLETE: ', flete)
                         total = (valorIdoc + valorAdoc + flete)
                         valor = total
                     largo = form_data4.get('largo')
@@ -61,9 +71,9 @@ def call(request):
                     alto = form_data3.get('alto')
                     contiene = form_data3.get('contiene')
                     formapagp = form_data3.get('forma')
-                    envio = EnvioGuia.objects.create(tipoServicio=tipoServicio, numueroguia=numueroguia, tipoIdRemitente=tipoIdRemitente, identificacionRemi=identificacionRemi, nombreRemi=nombreRemi, ciudadRemi=ciudadRemi, direccionRemi=direccionRemi, telefonoRemi=telefonoRemi, correoRemi=correoRemi, tipoIdDesti=tipoIdDesti, identificacionDesti=identificacionDesti, nombreDesti=nombreDesti, ciudadDesti=ciudadDesti, direccionDesti=direccionDesti, telefonoDesti=telefonoDesti, correoDesti=correoDesti, peso=peso, largo=largo, ancho=ancho, alto=alto, contiene=contiene, valor=valor, formapagp=formapagp)
+                    EnvioGuia.objects.create(tipoServicio=tipoServicio, numueroguia=numueroguia, tipoIdRemitente=tipoIdRemitente, identificacionRemi=identificacionRemi, nombreRemi=nombreRemi, ciudadRemi=ciudadRemi, direccionRemi=direccionRemi, telefonoRemi=telefonoRemi, correoRemi=correoRemi, tipoIdDesti=tipoIdDesti, identificacionDesti=identificacionDesti, nombreDesti=nombreDesti, ciudadDesti=ciudadDesti, direccionDesti=direccionDesti, telefonoDesti=telefonoDesti, correoDesti=correoDesti, peso=peso, largo=largo, ancho=ancho, alto=alto, contiene=contiene, valor=valor, formapagp=formapagp)
                 else:
-                    numueroguia = form_data1.get('numeroguia')
+                    numueroguia = rs
                     tipoIdRemitente = form_data1.get('tipoIdRemitente')
                     identificacionRemi = form_data1.get('identificacionRemi')
                     nombreRemi = form_data1.get('nombreRemi')
@@ -83,34 +93,31 @@ def call(request):
                     peso = form_data3.get('peso')
                     print('PESO 2', peso)
                     if peso < 50:
-                        valorIpaq = 15300
+                        valorIpaq = PreciosPaquetes.objects.get(año=2022).valorIpaq
+                        print('VALOR IPaq: ', valorIpaq)
                         valor = valorIpaq
                     else:
-                        valorIpaq = 15000
-                        valorApaq = 2000
-                        flete = 300
-                        total = (valorIpaq + valorApaq + flete)*peso
-                    if peso < 30:
-                        valorIdoc = 15300
-                        valor = valorIdoc
-                    else:
-                        valorIdoc = 15000
-                        valorAdoc = 2000
-                        flete = 300
-                        total = (valorIdoc + valorAdoc + flete)
+                        valorIpaq = PreciosPaquetes.objects.get(año=2022).valorIpaq
+                        print('VALOR IPaq: ', valorIpaq)
+                        valorApaq = PreciosPaquetes.objects.get(año=2022).valorApaq
+                        print('VALOR APaq: ', valorApaq)
+                        flete = PreciosPaquetes.objects.get(año=2022).flete
+                        print('FLETE: ', flete)
+                        total = (valorIpaq + valorApaq + flete)
                         valor = total
                     largo = form_data3.get('largo')
                     ancho = form_data3.get('ancho')
                     alto = form_data3.get('alto')
                     contiene = form_data3.get('contiene')
                     formapagp = form_data3.get('forma')
-                    envio = EnvioGuia.objects.create(tipoServicio=tipoServicio, numueroguia=numueroguia, tipoIdRemitente=tipoIdRemitente, identificacionRemi=identificacionRemi, nombreRemi=nombreRemi, ciudadRemi=ciudadRemi, direccionRemi=direccionRemi, telefonoRemi=telefonoRemi, correoRemi=correoRemi, tipoIdDesti=tipoIdDesti, identificacionDesti=identificacionDesti, nombreDesti=nombreDesti, ciudadDesti=ciudadDesti, direccionDesti=direccionDesti, telefonoDesti=telefonoDesti, correoDesti=correoDesti, peso=peso, largo=largo, ancho=ancho, alto=alto, contiene=contiene, valor=valor, formapagp=formapagp)
+                    EnvioGuia.objects.create(tipoServicio=tipoServicio, numueroguia=numueroguia, tipoIdRemitente=tipoIdRemitente, identificacionRemi=identificacionRemi, nombreRemi=nombreRemi, ciudadRemi=ciudadRemi, direccionRemi=direccionRemi, telefonoRemi=telefonoRemi, correoRemi=correoRemi, tipoIdDesti=tipoIdDesti, identificacionDesti=identificacionDesti, nombreDesti=nombreDesti, ciudadDesti=ciudadDesti, direccionDesti=direccionDesti, telefonoDesti=telefonoDesti, correoDesti=correoDesti, peso=peso, largo=largo, ancho=ancho, alto=alto, contiene=contiene, valor=valor, formapagp=formapagp)
         return render(request, 'Call/call.html', {'formRemi': formRemi, 'formDesti': formDesti, 'formUnidades': formUnidades, 'env': env})
     else:
         return redirect('sinpermiso')
 
 def editar(request, id):
     env = EnvioGuia.objects.filter(id=id).first()
+    print(env)
     if request.method == 'GET':
         formRemi = FormularioRemitente2(instance=env)
         formDesti = FormularioDestinatario2(instance=env)
@@ -132,12 +139,12 @@ def editar(request, id):
                 print(type(peso))
                 print(peso < 5)
                 if peso < 5:
-                    valorIdoc = 10300
+                    valorIdoc = PreciosDocumentos.objects.get(año=2022).valorIdoc
                     valor = valorIdoc
                 else:
-                    valorIdoc = 10000
-                    valorAdoc = 2000
-                    flete = 300
+                    valorIdoc = PreciosDocumentos.objects.get(año=2022).valorIdoc
+                    valorAdoc = PreciosDocumentos.objects.get(año=2022).valorAdoc
+                    flete = PreciosDocumentos.objects.get(año=2022).flete
                     total = (valorIdoc + valorAdoc + flete)
                     valor = total
                 env1 = EnvioGuia.objects.filter(id=id).update(peso=peso, valor = valor)
@@ -148,13 +155,17 @@ def editar(request, id):
                 print('PESO 2', peso)
                 print(peso < 50)
                 if peso < 50:
-                    valorIpaq = 15300
+                    valorIpaq = PreciosPaquetes.objects.get(año=2022).valorIpaq
+                    print('VALOR IPaq: ', valorIpaq)
                     valor = valorIpaq
                 else:
-                    valorIpaq = 15000
-                    valorApaq = 2000
-                    flete = 300
-                    total = (valorIpaq + valorApaq + flete)*peso
+                    valorIpaq = PreciosPaquetes.objects.get(año=2022).valorIpaq
+                    print('VALOR IPaq: ', valorIpaq)
+                    valorApaq = PreciosPaquetes.objects.get(año=2022).valorApaq
+                    print('VALOR APaq: ', valorApaq)
+                    flete = PreciosPaquetes.objects.get(año=2022).flete
+                    print('FLETE: ', flete)
+                    total = (valorIpaq + valorApaq + flete)
                     valor = total
                 env1 = EnvioGuia.objects.filter(id=id).update(peso=peso, valor = valor)
                 return redirect('Call')

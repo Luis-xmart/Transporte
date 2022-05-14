@@ -80,5 +80,6 @@ class EnvioGuia(models.Model):
     def __str__(self):
         return self.numueroguia
     class Meta:
+        db_table = 'EnvioGuia'
         verbose_name = 'Envio de Guia'
         verbose_name_plural = 'Envios de Guias'
