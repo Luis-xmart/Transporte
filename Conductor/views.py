@@ -70,7 +70,7 @@ def entregar(request, id):
                          env1.save()
           return render(request, 'Conductor/entrega.html', { 'form': form1})
      else:
-          print('EXISTE')
+          
           form = FormularioEntrega2(request.POST, instance=obs)
           if "entregado" in request.POST:
                if form.is_valid():
