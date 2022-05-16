@@ -9,8 +9,8 @@ class FormularioEntrega(forms.Form):
 class FormularioEntrega2(forms.ModelForm):
     class Meta:
         model = Observaciones
-        fields = ('observacion',)
-        labels = {'observacion': 'Observaciones'}
-        widgets = {'observacion': forms.Textarea(attrs={'rows': 5, 'cols': 40})}
+        fields = ('observacion', 'estado')
+        labels = {'observacion': 'Observaciones', 'estado': 'Entregado'}
+        widgets = {'observacion': forms.Textarea(attrs={'rows': 5, 'cols': 40}), 'estado': forms.CheckboxInput()}
 
 

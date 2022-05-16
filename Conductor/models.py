@@ -16,6 +16,8 @@ class Entrega(models.Model):
 class Observaciones(models.Model):
     observacion = models.TextField()
     guia = models.ForeignKey(EnvioGuia, on_delete=models.CASCADE)
+    estado = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
 

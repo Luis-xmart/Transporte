@@ -1,4 +1,5 @@
 from cmd import IDENTCHARS
+from pickle import FALSE
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect, render
@@ -21,11 +22,7 @@ def conductor(request):
           env2 = EnvioGuia.vehiculos_id = Vehiculo.objects.filter(conductor_id=request.user.id).exists()
           if env2 == True:
                env3 = EnvioGuia.vehiculos_id = Vehiculo.objects.filter(conductor_id=request.user.id).first().id
-               pk = request.POST.get('id')
-               if "entregado" in request.POST:
-                    env1 = EnvioGuia.objects.get(id = pk)
-                    env1.entregado = True
-                    env1.save()
+               
                return render(request, 'Conductor/conductor.html', {'env': env, 'env3': env3})
           if env2 == False:
                return render(request, 'Conductor/conductor.html', {'env': env})
@@ -34,63 +31,83 @@ def conductor(request):
 
 
 def entregar(request, id):
+     print(request)
      print('ID', id)
+     form1 = FormularioEntrega2()
      obs = Observaciones.objects.filter(guia_id=id).first()
+     print(obs)
      obs2 = Observaciones.objects.filter(guia_id=id).exists()
-     print(obs) 
-     form = FormularioEntrega2()
-     # pk = request.POST.get('id')
-     # print('PK', pk)
+     print('obs2', obs2) 
+     form1 = FormularioEntrega2()
      if request.method == 'GET':
-          form = FormularioEntrega2()
+          form1 = FormularioEntrega2()
      if obs2 == False:
-          print('FALSE')
-          form1 = FormularioEntrega2(request.POST)
-          if "entregado" in request.POST:
-               print('ENTREGADO')
+          print('NO EXISTE')              
+          if request.method == 'POST':
+               form1 = FormularioEntrega2(request.POST)
                if form1.is_valid():
                     formdata = form1.cleaned_data
                     observacion = formdata.get('observacion')
-                    Observaciones.objects.create(observacion=observacion, guia=EnvioGuia.objects.get(id=id))
-                    env1 = EnvioGuia.objects.get(id = id)
-                    env1.entregado = True
-                    env1.save()
-          else:
-               print('NO ENTREGADO')
-               form1 = FormularioEntrega2(request.POST)
-               if "noentregado " in request.POST:
-                    print('NO ENTREGADO IF')
-                    if form1.is_valid():
-                         formdata = form1.cleaned_data
-                         observacion = formdata.get('observacion')
-                         print('OBSERVACION', observacion)
-                         Observaciones.objects.create(observacion=observacion, guia=EnvioGuia.objects.get(id=id))
-                         env1 = EnvioGuia.objects.get(id = id)
-                         env1.entregado = False
-                         env1.save()
-          return render(request, 'Conductor/entrega.html', { 'form': form1})
+                    estado = formdata.get('estado')
+                    print('ESTADO', estado)
+                    if estado == True:
+                         Observaciones.objects.create(observacion=observacion, guia_id=id, estado=estado)
+                         env1 = EnvioGuia.objects.filter(id=id)
+                         env1.update(entregado=True)
+                         return redirect('Conductor')
+                    if estado == False:
+                         Observaciones.objects.create(observacion=observacion, guia_id=id, estado=estado)
+                         env2 = EnvioGuia.objects.filter(id=id)
+                         env2.update(entregado=False)
+                         return redirect('Conductor')
+               else:
+                    print('ERROR')
      else:
+          print('EXISTE')
+          if request.method == 'GET':
+               form1 = FormularioEntrega2(instance=obs)
+          if request.method == 'POST':
+               form = FormularioEntrega2(request.POST, instance=obs)
+               if form.is_valid():
+                    formdata = form1.cleaned_data
+                    observacion = formdata.get('observacion')
+                    estado = formdata.get('estado')
+                    print('ESTADO', estado)
+                    if estado == True:
+                         Observaciones.objects.filter(guia_id=id).update(observacion=observacion, estado=estado)
+                         env1 = EnvioGuia.objects.filter(id=id)
+                         env1.update(entregado=True)
+                         return redirect('Conductor')
+                    if estado == False:
+                         Observaciones.objects.filter(guia_id=id).update(observacion=observacion, estado=estado)
+                         env2 = EnvioGuia.objects.filter(id=id)
+                         env2.update(entregado=False)
+                         return redirect('Conductor')
+               else:
+                    print('ERROR')
+     return render(request, 'Conductor/entrega.html', {'form1': form1, 'obs2': obs2})
+     # else:
           
-          form = FormularioEntrega2(request.POST, instance=obs)
-          if "entregado" in request.POST:
-               if form.is_valid():
-                    formdata = form.cleaned_data
-                    observacion = formdata.get('observacion')
-                    print('ENTREGADO', observacion)
-                    Observaciones.objects.filter(guia_id=id).update(observacion=observacion)
-                    env1 = EnvioGuia.objects.get(id = id)
-                    env1.entregado = True
-                    env1.save()
-          if "noentregado" in request.POST:
-               if form.is_valid():
-                    formdata = form.cleaned_data
-                    observacion = formdata.get('observacion')
-                    print('NO ENTREGADO', observacion)
-                    Observaciones.objects.filter(guia_id=id).update(observacion=observacion)
-                    env2 = EnvioGuia.objects.get(id = id)
-                    env2.entregado = False
-                    env2.save()
-          return render(request, 'Conductor/entrega.html', { 'form': form})
+     #      form = FormularioEntrega2(request.POST, instance=obs)
+     #      if "entregado" in request.POST:
+     #           if form.is_valid():
+     #                formdata = form.cleaned_data
+     #                observacion = formdata.get('observacion')
+     #                print('ENTREGADO', observacion)
+     #                Observaciones.objects.filter(guia_id=id).update(observacion=observacion)
+     #                env1 = EnvioGuia.objects.get(id = id)
+     #                env1.entregado = True
+     #                env1.save()
+     #      if "no_entregado" in request.POST:
+     #           if form.is_valid():
+     #                formdata = form.cleaned_data
+     #                observacion = formdata.get('observacion')
+     #                print('NO ENTREGADO', observacion)
+     #                Observaciones.objects.filter(guia_id=id).update(observacion=observacion)
+     #                env2 = EnvioGuia.objects.get(id = id)
+     #                env2.entregado = False
+     #                env2.save()
+     #      return render(request, 'Conductor/entrega.html', { 'form': form})
           
           
      

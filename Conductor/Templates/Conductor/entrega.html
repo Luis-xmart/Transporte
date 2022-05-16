@@ -6,27 +6,29 @@
           <div class="modal-header">
              <h2 class="modal-title" id="exampleModalLabel">Observaciones de la entrega</h2>
           </div>
-          <form action="" method="POST">
+          <form method = "POST" action = "">
              <div class="modal-body">
                 {% csrf_token %}
                 
-                <table> {{ form.as_table }} </table>
+                <table> {{ form1.as_table }} </table>
               
              </div>
             
              <div class="modal-footer">
                 
-               <form method = "POST" action = "{% url 'Conductor' %}">
-                  {% csrf_token %}
-                  <button class="btn btn-success" name="entregado" >Entregado</button>
-               </form>
+               
+                  {% comment %} <input type="submit" value="Entregado" name="entregado" class="btn btn-success"> {% endcomment %}
+                  <input type="submit" value="Guardar" class="btn btn-success">
+                  {% comment %} <button type="submit" class="btn btn-success" name="entregado" >Entregado</button> {% endcomment %}
+               
                
                <!-- boton no entregado -->
 
-               <form method = "POST" action = "{% url 'Conductor' %}">
-                  {% csrf_token %}
-                  <button class="btn btn-danger" name="noentregado" >No Entregado</button>
-               </form>
+               
+               {% comment %} <input type="submit" value="No Entregado" name="no_entregado" class="btn btn-danger">
+                   {% endcomment %}
+                  {% comment %} <button type="submit" class="btn btn-danger" name="no_entregado" >No Entregado</button> {% endcomment %}
+               
                 
                 
              </div>
